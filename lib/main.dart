@@ -1,16 +1,50 @@
+import 'package:ecommarce/Screen/loginpage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(Ecommarce());
-}
+
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  
+   runApp(Ecommarce());
+   }
 
 class Ecommarce extends StatelessWidget {
-  const Ecommarce({Key? key}) : super(key: key);
-
+  // This widget is the root of your application.
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: null,
+    return FutureBuilder(
+
+     future: _initialization,
+        builder: (context, snapshot) {
+          // Check for Errors
+          if (snapshot.hasError) {
+            print("Something Went Wrong");
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return MaterialApp(
+            title: 'Flutter Firebase EMail Password Auth',
+            theme: ThemeData(
+              primarySwatch: Colors.deepPurple,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: LoginPage(),
+
+
+           routes: <String,WidgetBuilder>{
+
+        "Login" : (BuildContext context)=>LoginPage(),
+        "SignUp":(BuildContext context)=>RegisterScreen(),
+        "treatment":(BuildContext context)=>Homepage(), 
+      },
+          );
+        }
+
     );
   }
 }
