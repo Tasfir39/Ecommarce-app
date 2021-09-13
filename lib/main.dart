@@ -35,7 +35,12 @@ class Ecommarce extends StatelessWidget {
             home: LoginPage(),
 
 
-        
+           routes: <String,WidgetBuilder>{
+
+        "Login" : (BuildContext context)=>LoginPage(),
+        "SignUp":(BuildContext context)=>RegisterScreen(),
+        "treatment":(BuildContext context)=>Homepage(), 
+      },
           );
         }
 
